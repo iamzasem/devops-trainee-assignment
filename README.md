@@ -213,7 +213,7 @@ This confirmed that UFW was active and the required ports were allowed.
 
 ### 1.5.1 Firewall Screenshot
 
-[01-ufw-status.png](screenshots/01-ufw-status.png)
+![01-ufw-status.png](screenshots/01-ufw-status.png)
 
 ---
 
@@ -531,7 +531,7 @@ This troubleshooting helped me understand that checking container logs is one of
 
 ## 2.9 Docker ps screenshot
 
-[02-docker-ps.png](screenshots/02-docker-ps.png)
+![02-docker-ps.png](screenshots/02-docker-ps.png)
 
 ---
 
@@ -571,7 +571,7 @@ The Flask application was displayed successfully in the browser.
 
 ## 2.11 Browser output sccessing the reverse-proxied application
 
-[02-reverse-proxy.png](screenshots/03-reverse-proxy.png)
+![02-reverse-proxy.png](screenshots/03-reverse-proxy.png)
 
 This confirmed that the Nginx reverse proxy and Flask application were working correctly.
 
@@ -714,7 +714,7 @@ The log showed entries when the application container was stopped and when the w
 
 ## 3.6 Screenshot
 
-[04-output-and-log.png](screenshots/04-output-and-log.png)
+![04-output-and-log.png](screenshots/04-output-and-log.png)
 
 
 This makes it easier to know when a problem happened.
