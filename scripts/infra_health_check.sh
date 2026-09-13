@@ -1,4 +1,3 @@
-  GNU nano 8.7.1                                                                             infra_health.check.sh *                                                                                    
 #!/bin/bash
 
 LOG_FILE="/var/log/infra_health.log"
@@ -7,7 +6,7 @@ TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
 
 echo "infrastructure health check"
 
-#cpy usage
+#cpu usage
 CPU=$(top -bn1 | awk '/Cpu\(s\)/ {printf "%.1f", 100-$8}')
 echo "cpu usage: $CPU%"
 
@@ -25,6 +24,13 @@ if systemctl is-active --quiet docker; then
 else
     echo "docker: stopped"
 fi
+
+# cpu usage alert
+if (( $(echo "$CPU > 85" | bc -l) )); then
+    echo "[warning] cpu usage is above 85%"
+    echo "$TIMESTAMP [alert] cpu usage is ${CPU}%" >> "$LOG_FILE"
+fi
+
 
 # application container
 if docker ps --format '{{.Names}}' | grep -q "^${APP_CONTAINER}$"; then

@@ -9,4 +9,6 @@ docker exec trainee-db pg_dump -U trainee trainee_db | gzip > "$BACKUP_FILE"
 echo "Database backup completed:"
 echo "$BACKUP_FILE"
 
+find /var/backups/db/ -name "db_backup_*.sql.gz" -mtime +7 -delete
+
 
