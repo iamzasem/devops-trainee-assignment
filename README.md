@@ -1,3 +1,9 @@
+# IT infrastructure and Devops trainee assignment documentation
+
+This repository contains my practical implementation of Linux system administration, containerization, automation, monitoring, database backup and disaster recovery tasks. The work was completed in an Ubuntu environment using tools and technologies such as SSH, UFW, Docker, Docker Compose, Nginx, Flask, PostgreSQL, Bash, Cron, Prometheus and Node Exporter.
+
+Each task documents the configuration process, commands used, testing, troubleshooting and final results. The purpose of this repository is to demonstrate my practical understanding of basic DevOps and system administration workflows through hands on implementation.
+
 # Task 1: System Provisioning & Linux Administration
 
 ## 1.1 Ubuntu VM Setup
@@ -223,20 +229,7 @@ To test SSH key authentication, I created another Ubuntu VM in VMware and named 
 
 The purpose of this second VM was only to act as an SSH client so I could test the SSH connection to the main Ubuntu VM.
 
-The connection flow was:
 
-```text
-ubuntu-connect
-
-      to
-
-SSH Key Authentication
-   Port 2222
-
-      to
-
-trainee@zasem
-```
 
 On `ubuntu-connect`, I generated an SSH key pair:
 
@@ -414,19 +407,7 @@ Nginx was configured as a reverse proxy.
 
 It listens on port `80` and forwards the request to the Flask application running on port `5000`.
 
-The main flow is:
 
-```text
-Browser
-   to 
-Port 80
-   to
-Nginx Container
-   to
-Port 5000
-   to
-Flask Application
-```
 
 The main Nginx reverse proxy configuration is also in the github repo inside of default.conf
 
@@ -439,7 +420,7 @@ http://localhost
 or:
 
 ```text
-http://<server-ip>
+http://192.168.208.x
 ```
 
 Nginx receives the request on port `80` and sends it to the Flask application on port `5000`.
@@ -545,15 +526,7 @@ curl http://localhost
 
 The Flask application page was returned successfully.
 
-This confirmed that the request was following this path:
 
-```text
-localhost:80
-     to
-   Nginx 
-     to
-Flask:5000
-```
 
 I also checked the IP address of the Ubuntu VM using:
 
@@ -564,7 +537,7 @@ hostname -I
 Then I opened the server IP in a browser:
 
 ```text
-http://<server-ip>
+http://192.168.208.x
 ```
 
 The Flask application was displayed successfully in the browser.
@@ -866,18 +839,6 @@ reads and decompresses the `.sql.gz` backup without deleting the original compre
 
 The output is then passed to PostgreSQL running inside the `trainee-db` container.
 
-So the full process is:
-
-```text
-Compressed Backup File
-        to
-     gunzip
-       to
-PostgreSQL inside trainee-db
-       to
-     trainee_db
-```
-
 This is the recovery command that can be used if the database needs to be restored from a backup.
 
 The backup files are currently kept inside `/var/backups/db/`.
@@ -967,7 +928,7 @@ docker inspect trainee-node-exporter
 After finding the container IP address, I opened the Node Exporter metrics page using port `9100`:
 
 ```text
-http://<node-exporter-container-ip>:9100/metrics
+http://172.18.0.4:9100/metrics
 ```
 
 The browser displayed a large amount of system metric data.
@@ -976,19 +937,6 @@ This confirmed that Node Exporter was providing metrics correctly.
 
 Prometheus was configured to collect these metrics from Node Exporter every 15 seconds.
 
-The monitoring flow was:
-
-```text
-System Metrics
-      to
- Node Exporter
-    Port 9100
-      |
-      | Scraped every 15 seconds
-      to
-  Prometheus
-    Port 9090
-```
 
 ---
 ---
@@ -1001,3 +949,4 @@ I created a PostgreSQL backup script and stored the compressed database backups 
 For monitoring, I created a Prometheus configuration and used Node Exporter for system metrics. Prometheus was configured to collect the Node Exporter metrics every 15 seconds.
 
 After starting the services with Docker Compose, the Prometheus container ran successfully. The Prometheus health check returned `Prometheus Server is Healthy`, and I was also able to open the Node Exporter `/metrics` page and see the system metrics being provided.
+
